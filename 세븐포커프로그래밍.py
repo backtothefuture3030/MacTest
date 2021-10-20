@@ -17,7 +17,7 @@ for j in range(3):      # 3장씩 카드 받기
 for k in range(3,6):
     player.append(deck[k])
 
-com_num = []      # 카드들의 크기
+com_num = []      # 카드들의 첫번째 장 레벨
 player_num = []
 print("com : ", end=' ')
 print(com)
@@ -25,7 +25,7 @@ print("player : " ,end=' ')
 print(player)
 
 random.shuffle(com)   # 일단 컴퓨터가 낼 카드를 랜덤으로 뽑는다
-a = int(input()) # 사용자가 낼 카드
+a = int(input("먼저 낼 오픈카드를 선택하세요 : ")) # 사용자가 낼 카드
 
 if com[0][1]>player[a-1][1]:   # 카드의 족보에 따라 카드를 먼저받거나 후에 받거나. 코딩엔 별 의미가 안보임
     print("com : {}".format(com[0]))
@@ -46,8 +46,89 @@ else:
 
 print("------------------------------")
 print("HIDE : {}".format(player))  # 자신의 패를 보여줌
+print("------------------------------")
+check1 = input("배팅 하시겠습니까? y or n : ")
 
-#def poker_hand():   # 포커 족보 함수
+if check1 == "y":
+    player.append(deck[8])
+    com.append(deck[9])
+    print("------------------------------")
+    print("com : {},{},{}".format(com[0],com[-2],com[-1]))                 # 세장씩 오픈카드를 보여준다
+    print("player : {},{},{}".format(player[a-1],player[-2],player[-1]))    
+    print("------------------------------")
+    print("HIDE : {}".format(player))  # 자신의 패를 보여줌
+else:
+    print("패배 하셨습니다")
+    print("com : {}".format(com))
+    exit()
+
+check2 = input("배팅 하시겠습니까? y or n : ")
+
+if check2 == "y":
+    player.append(deck[10])
+    com.append(deck[11])
+    print("------------------------------")
+    print("com : {},{},{},{}".format(com[0],com[-3],com[-2],com[-1]))                 # 네장씩 오픈카드를 보여준다
+    print("player : {},{},{},{}".format(player[a-1],player[-3],player[-2],player[-1]))    
+    print("------------------------------")
+    print("HIDE : {}".format(player))  # 자신의 패를 보여줌
+else:
+    print("패배 하셨습니다")
+    print("com : {}".format(com))
+    exit()
+
+player.append(deck[12])
+com.append(deck[13])
+print("HIDE : {}".format(player))    # 배팅 전 마지막 카드 확인
+print("------------------------------")
+check3 = input("베팅 하시겠습니까? y or n : ")
+if check3 == "y":
+    print("------------------------------")
+    print("com : {}".format(com))
+    print("player : {}".format(player))
+else:
+    print("패배 하셨습니다")
+    print("com : {}".format(com))
+    exit()
+ 
+# 카드의 무늬와 숫자 따로 담기
+com_pattern = []                  # 무늬
+player_pattern = []
+for i in com:
+    com_pattern.append(i[0])
+for j in player:
+    player_pattern.append(j[0])    
+
+com_numbers = []                  # 숫자
+player_numbers = []
+for q in com:
+    com_numbers.append(q[1])
+for w in player:
+    player_numbers.append(w[1])
+
+com_numbers.sort()
+player_numbers.sort()
+print(com_numbers)
+print(player_numbers)
+
+com_rank = 0
+player_rank = 0
 
 
-
+# 플러쉬
+if com_pattern.count('♠︎')==5:
+    print("♠︎ flush")
+    com_rank+=30
+elif com_pattern.count('♦︎')==5:
+    print("♦︎ flush")
+    com_rank+=29
+elif com_pattern.count('♥︎')==5:
+    print("♥︎ flush")
+    com_rank+=28
+elif com_pattern.count('♣︎')==5:
+    print("♣︎ flush")
+    com_rank+=27
+else:
+    # 스트레이트 
+    
+    
