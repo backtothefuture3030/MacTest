@@ -108,15 +108,15 @@ for w in player:
 
 com_numbers.sort()
 player_numbers.sort()
-print(com_numbers)
-print(player_numbers)
+#print(com_numbers)
+#print(player_numbers)
 
 com_rank = 0
 player_rank = 0
 
 
 # 플러쉬
-def flush(com_pattern):
+def com_flush(com_pattern):
     if com_pattern.count('♠︎')==5:
         print("com : ♠︎ flush")
         return True
@@ -132,8 +132,24 @@ def flush(com_pattern):
     else:
         return False
 
+def player_flush(player_pattern):
+    if player_pattern.count('♠︎')==5:
+        print("player : ♠︎ flush")
+        return True
+    elif player_pattern.count('♦︎')==5:
+        print("player : ♦︎ flush")
+        return True
+    elif player_pattern.count('♥︎')==5:
+        print("player : ♥︎ flush")
+        return True
+    elif player_pattern.count('♣︎')==5:
+        print("player : ♣︎ flush")
+        return True
+    else:
+        return False
+
 # 스트레이트
-def straight(com_numbers):
+def com_straight(com_numbers):
     com_numbers.sort(reverse=True)   
     so = []
     r = 0
@@ -173,9 +189,49 @@ def straight(com_numbers):
                 #print("com의 최고 하이카드는 {}".format(max(com_numbers)))   # 스트레이트가 아님
                 return False
 
+def player_straight(player_numbers):
+    player_numbers.sort(reverse=True)   
+    so = []
+    r = 0
+    if player_numbers[0]==13 and player_numbers[1]==12 and player_numbers[2]==11 and player_numbers[3]==10 and player_numbers[4]==9 and player_numbers[6]==1:
+        print("player : Mountain")
+        exit()
+    else:
+        for i in range(len(player_numbers)-1):
+            if player_numbers[i+1]-player_numbers[i]==-1:
+                if i==len(player_numbers)-2:
+                    so.append(player_numbers[i])
+                    so.append(player_numbers[i+1])
+                    r+=1
+                else:
+                    so.append(player_numbers[i])
+                    r+=1
+            elif r>=4:
+                so.append(player_numbers[i])
+                break
+            else:
+                r=0
+                so=[]
+        if r>=4:
+            if max(so)==5:
+                print("player : back straight")
+                return True
+            else:
+                print("player : {} straight".format(max(so)))
+                return True        # 랭크를 매겨야한다. 단순한 트루 뿐 아니라 점수까지 더해줘야한다. 
+        else:
+            del player_numbers[1]
+            del player_numbers[1]
+            if [1,10,11,12,13]==player_numbers:
+                print("player : Mountain")
+                return True
+            else:
+                #print("com의 최고 하이카드는 {}".format(max(com_numbers)))   # 스트레이트가 아님
+                return False
+
 
 # 페어 
-def pair(com_numbers):
+def com_pair(com_numbers):
     com_numbers.sort()
     count = 0
     pair = []
@@ -211,14 +267,52 @@ def pair(com_numbers):
     elif One_pair == True and len(list(set(pair)))>=2:       # 투페어
         print("com : {},{} Two Pair".format(pair[-2],pair[-1]))
     elif One_pair == False and Triple == False and Four_cards == False:
-        print("com : {} card".format(max(com_numbers)))
+        print("com : {} top card".format(max(com_numbers)))
+
+def player_pair(player_numbers):
+    player_numbers.sort()
+    count = 0
+    pair = []
+    One_pair = False
+    Triple = False
+    Four_cards = False
+    for i in range(len(player_numbers)-1):
+        count = 0
+        if player_numbers[i]==player_numbers[i-1]:
+            pass
+        else:
+            for j in range(i+1,len(player_numbers)):
+                if player_numbers[i] == player_numbers[j]:
+                    count+=1
+            if count==1:
+                print("player : {} One pair".format(player_numbers[i]))
+                one = player_numbers[i]
+                pair.append(player_numbers[i])
+                One_pair = True
+                pair.append(player_numbers[i])
+            elif count==2:
+                print("player : {} Triple".format(player_numbers[i]))
+                triple = player_numbers[i]
+                Triple = True
+            elif count==3:
+                print("player : {} Four cards".format(player_numbers[i]))
+                Four_cards = True
+    pair = list(set(pair))
+    if Four_cards == True:                                   # 포카드
+        pass
+    elif One_pair == True and Triple == True:                # 풀하우스
+        print("player : {},{} Full House".format(one,triple))
+    elif One_pair == True and len(list(set(pair)))>=2:       # 투페어
+        print("player : {},{} Two Pair".format(pair[-2],pair[-1]))
+    elif One_pair == False and Triple == False and Four_cards == False:
+        print("player : {} top card".format(max(com_numbers)))
 
 
+com_pair(com_numbers)
+player_pair(player_numbers)
+com_flush(com_pattern)
+player_flush(player_pattern)
+com_straight(com_numbers)
+player_straight(player_numbers)
 
 
-pair(com_numbers)
-flush(com_pattern)
-straight(com_numbers)
-
-
-# 포카드, 트리플, 풀하우스, 투페어, 원페어 pair 판단하는 코드
