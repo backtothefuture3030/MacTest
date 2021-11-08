@@ -3,6 +3,9 @@ import random
 deck = []  # 총 포커 덱
 com = []   # 컴퓨터가 가지고 있는 카드
 player = [] # 플레이어가 가지고 있는 카드
+com_rank = []     # 컴퓨터가 가지고 있는 족보
+player_rank = []  # 플레이어가 가지고 있는 족보
+
 
 for i in range(1,14):     # 스페이드, 다이아몬드, 하트, 클로버 족보
     deck.append(("♠︎",i))
@@ -90,7 +93,10 @@ else:
     print("패배 하셨습니다")
     print("com : {}".format(com))
     exit()
- 
+print("--------------------------")
+print("--------------------------")
+
+
 # 카드의 무늬와 숫자 따로 담기
 com_pattern = []                  # 무늬
 player_pattern = []
@@ -268,7 +274,6 @@ def com_pair(com_numbers):
         print("com : {},{} Two Pair".format(pair[-2],pair[-1]))
     elif One_pair == False and Triple == False and Four_cards == False:
         print("com : {} top card".format(max(com_numbers)))
-
 def player_pair(player_numbers):
     player_numbers.sort()
     count = 0
@@ -308,11 +313,22 @@ def player_pair(player_numbers):
         print("player : {} top card".format(max(com_numbers)))
 
 
-com_pair(com_numbers)
-player_pair(player_numbers)
+
 com_flush(com_pattern)
-player_flush(player_pattern)
 com_straight(com_numbers)
+com_pair(com_numbers)
+print("--------------------------")
+player_flush(player_pattern)
 player_straight(player_numbers)
+player_pair(player_numbers)
+print("--------------------------")
+
+if player_straight == True and com_straight == False:
+    print("player 승리")
+elif player_flush == True and com_flush == False and com_straight == False :
+    print("player 승리")
+elif player_pair == True and com_straight==False and com_flush == False and com_pair == False:
+    print("player 승리")
+
 
 
