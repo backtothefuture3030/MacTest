@@ -13,7 +13,7 @@ class MainWindow(QMainWindow, ui):
         self.setupUi(self)
         self.pushButton.clicked.connect(self.run)
         self.WeatherCrawling = GoogleWeather()
-        self.table_cols = ['지역명', '시간', '상태']
+        self.table_cols = ['지역명', '시간', '상태','강수확률']
         
 
     def run(self):
@@ -38,6 +38,12 @@ class MainWindow(QMainWindow, ui):
             col_idx = self.table_cols.index('상태')
             table_item = QtWidgets.QTableWidgetItem(data['status'])
             self.tableWidget.setItem(row_idx, col_idx, table_item)
+
+            col_idx = self.table_cols.index('강수확률')
+            table_item = QtWidgets.QTableWidgetItem(data['rain'])
+            self.tableWidget.setItem(row_idx, col_idx, table_item)
+
+
 
 if __name__== "__main__":
     app = QtWidgets.QApplication(sys.argv)

@@ -26,10 +26,13 @@ class GoogleWeather():
         time = time.string if time else time
         status = html.find('span', {'id':'wob_dc'})
         status = status.string if status else status
+        rain = html.find('div', {'class': 'wob_hw'})
+        rain = rain.text if rain else rain
         self.result.append({
             'loc':loc,
             'time':time,
-            'status':status
+            'status':status,
+            'rain' : rain
         })
     
     def get_result(self):
@@ -47,3 +50,4 @@ if __name__== '__main__':
         r = crawler.get_result()
         for v in r.values(): print(v)
         print('-'*50)
+    
