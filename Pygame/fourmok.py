@@ -92,7 +92,7 @@ def runGame():
 
                         turn += 1
                         turn %= 2
-                if turn == 1:
+                elif turn == 1:
                     if is_free_column_index(grid, column_index):
                         row_index = get_free_row_index(grid, column_index)
                         grid[row_index][column_index] = 2
@@ -107,10 +107,42 @@ def runGame():
         if game_over == 0 :
             mouse_x, mouse_y = pygame.mouse.get_pos()
         width = 700
-        pygame.draw.rect(screen, BLACK, pygame.RECT(0, 0, width, CELL_SIZE))
+        pygame.draw.rect(screen, BLACK, pygame.Rect(0, 0, width, CELL_SIZE))
         if turn == 0 :
             pygame.draw.circle(screen, RED, (mouse_x, CELL_SIZE//2), CELL_SIZE // 2 -5)
         else:
-            pygame.draw.circle(screen, YELLOW, (mouse_x, CELL_SIZE//2), CELL_SIZE // 2 -5)                        
+            pygame.draw.circle(screen, YELLOW, (mouse_x, CELL_SIZE//2), CELL_SIZE // 2 -5)         
+            
+        for column_index in range(COLUMN_COUNT):
+            for row_index in range(ROW_COUNT):
+                pygame.draw.rect(screen, BLUE, pygame.Rect(column_index * CELL_SIZE, row_index * CELL_SIZE + CELL_SIZE, CELL_SIZE, CELL_SIZE))
+                pygame.draw.circle(screen, BLACK, (column_index * CELL_SIZE + CELL_SIZE // 2, row_index * CELL_SIZE + CELL_SIZE + CELL_SIZE // 2), CELL_SIZE //2 -5) 
+        
+        for column_index in range(COLUMN_COUNT):
+            for row_index in range(ROW_COUNT):
+                if grid[row_index][column_index] == 1:
+                    height = CELL_SIZE * (ROW_COUNT + 1)
+                    pygame.draw.circle(screen, RED, (column_index * CELL_SIZE + CELL_SIZE // 2, height - (row_index * CELL_SIZE + CELL_SIZE // 2)), CELL_SIZE // 2 -5  )
+                elif grid[row_index][column_index] == 2:
+                    height = CELL_SIZE * (ROW_COUNT + 1)
+                    pygame.draw.circle(screen, YELLOW, (column_index * CELL_SIZE + CELL_SIZE // 2 , height - (row_index * CELL_SIZE + CELL_SIZE // 2 )), CELL_SIZE // 2 -5)
+                    
+        
+        if game_over > 0:
+            if game_over == P1_WIN:
+                p1_win_image = large_font.render('Red (1) Win', True, RED)
+                screen.blit(p1_win_image, p1_win_image.get_rect(centerx=SCREEN_WIDTH // 2, centery = SCREEN_HEIGHT // 2))
+            
+            elif game_over == P2_WIN:
+                p2_win_image = large_font.render('Yellow (2) Win', True, RED)
+                screen.blit(p2_win_image, p2_win_image.get_rect(centerx=SCREEN_WIDTH //2 , centery = SCREEN_HEIGHT // 2))
+            
+            else:
+                draw_image = large_font.render('Draw', True, RED)
+                screen.blit(draw_image, draw_image.get_rect(centerx = SCREEN_WIDTH // 2 , centery = SCREEN_HEIGHT // 2))
+        pygame.display.update()
+        
+runGame()
+pygame.quit()           
                             
 
