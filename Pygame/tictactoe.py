@@ -1,3 +1,5 @@
+
+
 import pygame
 
 pygame.init()
@@ -12,11 +14,10 @@ small_font = pygame.font.SysFont(None, 36)
 size = [600,600]
 screen = pygame.display.set_mode(size)
 
-turn = 0
-grid = [' ', ' ', ' '
-        ' ', ' ', ' '
+turn = 0 
+grid = [' ', ' ', ' ', 
+        ' ', ' ', ' ', 
         ' ', ' ', ' ']
-
 done = False
 clock = pygame.time.Clock()
 
@@ -35,7 +36,7 @@ def is_winner(grid, mark):
         (grid[2] == mark and grid[5] == mark and grid[8] == mark) or \
         (grid[0] == mark and grid[4] == mark and grid[8] == mark) or \
         (grid[2] == mark and grid[4] == mark and grid[6] == mark):
-            return True
+        return True
     else:
         return False
 
@@ -71,10 +72,60 @@ def runGame():
                     position = column_index + 3 * row_index
                     if is_valid_position(grid, position):
                         grid[position] = 'X'
+                        if is_winner(grid,'X'):
+                            print(('X가 이겼습니다'))
+                            game_over = X_WIN
+                            #break
+                        elif is_grid_full(grid):
+                            print("무승부 입니다")                   
+                            game_over = DRAW
+                            #break
+                        turn +=1 
+                        turn = turn % 2 
+                else:
+                    column_index = event.pos[0] // CELL_SIZE
+                    row_index = event.pos[1] // CELL_SIZE
+                    position = column_index + 3 * row_index
+                    if is_valid_position(grid, position):
+                        grid[position] = 'O'
+                        if is_winner(grid, 'O'):
+                            print('o 가 이겼습니다 ')
+                            game_over = O_WIN
+                            #break
+                        elif is_grid_full(grid):
+                            print('무승부 입니다')
+                            game_over = DRAW
+                            #break  
+                        turn += 1
+                        turn = turn %2  
                         
+            for column_index in range(COLUMN_COUNT):
+                for row_index in range(ROW_COUNT):
+                    rect = (CELL_SIZE * column_index, CELL_SIZE * row_index, CELL_SIZE, CELL_SIZE)
+                    pygame.draw.rect(screen,WHITE,rect,1)
                     
-    
-        
-    
-    
-     
+            for column_index in range(COLUMN_COUNT):
+                for row_index in range(ROW_COUNT):
+                    position = column_index + 3 * row_index
+                    mark = grid[position]  
+                    if mark == 'X':
+                        X_image = small_font.render('{}'.format('X'), True, YELLOW)
+                        screen.blit(X_image, (CELL_SIZE * column_index + 10, CELL_SIZE * row_index + 10))
+                    elif mark== 'O':
+                        O_image = small_font.render('{}'.format('O'), True, WHITE)
+                        screen.blit(O_image, (CELL_SIZE * column_index + 10, CELL_SIZE * row_index + 10))
+            if not game_over:
+                pass
+            else:
+                if game_over == X_WIN:
+                    game_over_image = large_font.render('X Wins', True, RED)
+                elif game_over == O_WIN:
+                    game_over_image = large_font.render("O Wins", True, RED)
+                else:
+                    game_over_image = large_font.render("DRAW", True, RED) 
+                screen.blit(game_over_image, (600// 2 - game_over_image.get_width() // 2 , 600// 2-game_over_image.get_height() // 2))
+            pygame.display.update()
+   
+runGame()
+pygame.quit()
+
