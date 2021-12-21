@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>361</width>
-    <height>427</height>
+    <width>424</width>
+    <height>435</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <rect>
       <x>30</x>
       <y>20</y>
-      <width>201</width>
+      <width>291</width>
       <height>31</height>
      </rect>
     </property>
@@ -27,7 +27,7 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>240</x>
+      <x>320</x>
       <y>10</y>
       <width>91</width>
       <height>51</height>
@@ -40,9 +40,9 @@
    <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>60</y>
-      <width>321</width>
+      <width>401</width>
       <height>321</height>
      </rect>
     </property>
@@ -61,6 +61,11 @@
       <string>상태</string>
      </property>
     </column>
+    <column>
+     <property name="text">
+      <string>강수확률</string>
+     </property>
+    </column>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -68,7 +73,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>361</width>
+     <width>424</width>
      <height>24</height>
     </rect>
    </property>
